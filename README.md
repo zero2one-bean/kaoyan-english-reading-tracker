@@ -1,5 +1,3 @@
-# 考研英语做题记录 / Kaoyan Reading Tracker
-
 > 考研英语一刷题追踪工具，支持多刷记录、年度统计、得分率曲线可视化。
 
 ![Static Badge](https://img.shields.io/badge/考研英语一-专用-b22222)
@@ -9,15 +7,16 @@
 ---
 
 ## ✨ 界面预览 
+
 **💻 桌面端：做题总线与年度数据分析** 
 
-![[README-20260530154812743.png]]
+<img width="1615" height="918" alt="桌面端-做题记录" src="https://github.com/user-attachments/assets/082563b8-9271-4513-bae2-9b7924023b35" />
 
-![[README-20260530154812767.png]]
+<img width="1649" height="919" alt="桌面端-数据统计" src="https://github.com/user-attachments/assets/32d74ac6-56d0-488b-ba75-69648e1b2176" />
 
 **📱 移动端：原生 App 级响应式体验**
 
-![[README-20260530154812802.png]]
+<img width="300" alt="移动端适配界面" src="https://github.com/user-attachments/assets/11b72b80-8cbf-43d2-a63e-4f09da1af7a0" />
 
 ## 功能一览
 
