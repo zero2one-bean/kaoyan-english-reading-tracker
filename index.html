@@ -1,0 +1,1431 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>考研英语做题记录</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════
+   THEME: 红白外刊风 (Task Panel 移植)
+═══════════════════════════════ */
+:root {
+  --bg: #f5f0eb;
+  --bg-warm: #f0ebe5;
+  --card: rgba(255,255,255,0.72);
+  --card-solid: #ffffff;
+  --text: #0a0a0a;
+  --text-secondary: #5c5c5c;
+  --text-muted: #999999;
+  --border: rgba(0,0,0,0.08);
+  --border-strong: rgba(0,0,0,0.15);
+  --accent: #b22222;
+  --accent-light: #d44545;
+  --accent-bg: rgba(178,34,34,0.06);
+  --success: #2d6a4f;
+  --success-bg: rgba(45,106,79,0.08);
+  --warning: #b8870b;
+  --warning-bg: rgba(184,135,11,0.08);
+  
+  --shadow: 0 8px 32px rgba(0,0,0,0.04), 0 2px 8px rgba(0,0,0,0.02);
+  --shadow-hover: 0 16px 48px rgba(0,0,0,0.06), 0 4px 12px rgba(0,0,0,0.04);
+  --radius: 12px;
+  --radius-sm: 8px;
+  
+  --font-serif: 'Noto Serif SC', serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans SC', sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+/* 装饰性背景光晕 */
+body::before {
+  content: '';
+  position: fixed; top: -300px; left: 50%; transform: translateX(-50%);
+  width: 900px; height: 600px;
+  background: radial-gradient(ellipse, rgba(178,34,34,0.05) 0%, transparent 70%);
+  pointer-events: none; z-index: -1;
+}
+
+/* ═══════════════════════════════
+   GLASS & CARD UI
+═══════════════════════════════ */
+.glass {
+  background: var(--card);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  border-radius: var(--radius);
+  transition: all 0.3s ease;
+}
+
+/* ═══════════════════════════════
+   HEADER
+═══════════════════════════════ */
+.header {
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--border);
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(245, 240, 235, 0.85);
+  backdrop-filter: blur(16px);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.header-left { display: flex; align-items: center; gap: 16px; }
+.back-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  color: var(--accent); text-decoration: none;
+  font-size: 13px; font-weight: 600;
+  border: 1px solid rgba(178,34,34,0.3);
+  padding: 4px 14px; border-radius: 20px;
+  transition: all 0.2s; font-family: var(--font-mono);
+}
+.back-link:hover {
+  background: var(--accent); color: white; border-color: var(--accent);
+  box-shadow: 0 4px 12px rgba(178,34,34,0.2);
+}
+/* Sync status */
+.sync-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+  padding: 3px 10px; border-radius: 20px;
+  border: 1px solid; white-space: nowrap;
+  transition: all 0.3s;
+}
+.sync-badge.cloud {
+  color: #2d6a4f; border-color: rgba(45,106,79,0.3);
+  background: rgba(45,106,79,0.08);
+}
+.sync-badge.local {
+  color: #888; border-color: rgba(0,0,0,0.12);
+  background: rgba(0,0,0,0.04);
+}
+.sync-dot {
+  width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0;
+}
+.sync-badge.cloud .sync-dot { background: #2d6a4f; }
+.sync-badge.local  .sync-dot { background: #bbb; }
+.site-title { 
+  font-family: var(--font-serif); font-size: 18px; font-weight: 700; 
+  color: var(--accent); letter-spacing: 1px; 
+}
+.header-nav { display: flex; gap: 8px; }
+.nav-tab {
+  padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: 600;
+  color: var(--text-secondary); cursor: pointer; border: 1px solid transparent;
+  background: transparent; transition: all 0.2s;
+}
+.nav-tab.active {
+  background: var(--accent); color: white; border-color: var(--accent);
+  box-shadow: 0 4px 12px rgba(178,34,34,0.2);
+}
+
+/* ═══════════════════════════════
+   PAGE LAYOUT
+═══════════════════════════════ */
+.page-body { max-width: 1400px; margin: 0 auto; padding: 24px; display: grid; gap: 24px; }
+@media (min-width: 900px) {
+  .page-body { grid-template-columns: 320px 1fr; align-items: start; }
+  .sidebar-col { position: sticky; top: 88px; display: flex; flex-direction: column; gap: 16px; }
+}
+@media (max-width: 899px) {
+  .page-body { grid-template-columns: 1fr; padding: 16px; }
+  .sidebar-col { display: flex; flex-direction: column; gap: 16px; }
+}
+.main-col { display: flex; flex-direction: column; gap: 16px; }
+
+/* ═══════════════════════════════
+   SIDEBAR ELEMENTS
+═══════════════════════════════ */
+.btn-primary {
+  width: 100%; padding: 12px; border-radius: var(--radius-sm);
+  background: var(--accent); color: white; font-weight: 600; font-size: 15px;
+  border: none; cursor: pointer; box-shadow: 0 4px 12px rgba(178,34,34,0.2);
+  transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.btn-primary:hover { background: #9b1e1e; transform: translateY(-1px); }
+
+.panel-title {
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 1px;
+  text-transform: uppercase; color: var(--text-muted); 
+  padding: 16px 16px 8px; border-bottom: 1px dashed var(--border);
+  margin-bottom: 8px;
+}
+
+/* Filter Collapsible Logic */
+.filter-toggle { display: flex; justify-content: space-between; align-items: center; }
+.filter-arrow { font-size: 10px; transition: transform 0.2s; color: var(--text-muted); }
+
+@media (min-width: 769px) {
+  #filter-panel .filter-group { display: flex !important; }
+  .filter-arrow { display: none; }
+  .filter-toggle { pointer-events: none; }
+}
+
+/* Stats Summary */
+.sidebar-stats { padding: 0 16px 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.stat-mini-box { background: rgba(0,0,0,0.02); border-radius: 8px; padding: 12px; text-align: center; border: 1px solid var(--border); }
+.stat-mini-val { font-family: var(--font-mono); font-size: 20px; font-weight: 700; color: var(--accent); line-height: 1.2; }
+.stat-mini-label { font-size: 11px; color: var(--text-secondary); margin-top: 4px; }
+
+/* Filters */
+.filter-group { padding: 0 16px 16px; display: flex; flex-direction: column; gap: 12px; }
+.filter-item { display: flex; flex-direction: column; gap: 4px; }
+.filter-item label { font-size: 12px; font-weight: 600; color: var(--text-secondary); }
+.filter-item select {
+  width: 100%; padding: 8px 12px; border: 1px solid var(--border-strong);
+  border-radius: 6px; font-size: 13px; background: var(--card-solid);
+  color: var(--text); outline: none; cursor: pointer; font-family: inherit;
+}
+.filter-item select:focus { border-color: var(--accent); }
+
+/* ═══════════════════════════════
+   MAIN CONTENT: RECORDS
+═══════════════════════════════ */
+.section-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 16px; padding: 0 4px; }
+.section-title { font-family: var(--font-serif); font-size: 24px; font-weight: 700; color: var(--text); }
+.section-count { font-family: var(--font-mono); font-size: 13px; color: var(--text-muted); }
+
+.year-group { margin-bottom: 32px; }
+.year-header {
+  font-family: var(--font-serif); font-size: 18px; font-weight: 700; color: var(--accent);
+  padding-bottom: 8px; border-bottom: 2px solid var(--accent-bg); margin-bottom: 16px;
+  display: flex; justify-content: space-between; align-items: baseline;
+}
+.year-meta { font-family: var(--font-sans); font-size: 13px; color: var(--text-secondary); font-weight: 400; }
+
+.record-card { padding: 16px; margin-bottom: 12px; display: flex; flex-direction: column; gap: 12px; position: relative; }
+.record-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover); border-color: rgba(178,34,34,0.2); }
+
+.record-top { display: flex; justify-content: space-between; align-items: flex-start; }
+.record-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.tag { font-size: 11px; padding: 2px 8px; border-radius: 4px; font-weight: 600; letter-spacing: 0.5px; }
+.tag-q { background: var(--accent-bg); color: var(--accent); border: 1px solid rgba(178,34,34,0.2); }
+.tag-article { background: rgba(0,0,0,0.04); color: var(--text-secondary); border: 1px solid var(--border); }
+.tag-brush { background: var(--text); color: white; }
+
+.record-score-box { text-align: right; }
+/* 大数字小汉字排版核心 */
+.score-main { display: flex; align-items: baseline; justify-content: flex-end; color: var(--accent); margin-bottom: 2px; }
+.score-num { font-family: var(--font-mono); font-size: 24px; font-weight: 800; letter-spacing: -0.5px; line-height: 1; }
+.score-unit { font-size: 12px; font-weight: 600; font-family: var(--font-sans); margin-left: 2px; opacity: 0.9; }
+.score-sub { font-size: 11px; color: var(--text-secondary); margin-top: 0; }
+
+.record-bottom { display: flex; justify-content: space-between; align-items: center; border-top: 1px dashed var(--border); padding-top: 10px; flex-wrap: nowrap; }
+.record-meta { display: flex; gap: 12px; font-size: 12px; color: var(--text-muted); font-family: var(--font-mono); white-space: nowrap; flex-shrink: 1; overflow: hidden; }
+.record-actions { display: flex; gap: 12px; flex-shrink: 0; }
+.btn-edit, .btn-delete { background: transparent; border: none; font-size: 13px; font-weight: 500; cursor: pointer; transition: color 0.2s; }
+.btn-edit { color: var(--text-secondary); }
+.btn-edit:hover { color: var(--accent); }
+.btn-delete { color: var(--text-muted); }
+.btn-delete:hover { color: var(--accent); }
+
+.record-notes {
+  font-size: 13px; color: var(--text-secondary); padding: 10px 12px;
+  background: var(--bg-warm); border-radius: 6px;
+}
+
+/* ═══════════════════════════════
+   MAIN CONTENT: STATS
+═══════════════════════════════ */
+.stats-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
+@media (min-width: 1024px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
+
+.year-stat-card { padding: 0; overflow: hidden; }
+.year-stat-header {
+  background: var(--accent-bg); padding: 16px; border-bottom: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.year-stat-title { font-family: var(--font-serif); font-size: 18px; font-weight: 700; color: var(--accent); }
+.year-stat-total { font-family: var(--font-mono); font-size: 14px; font-weight: 700; color: var(--text); }
+
+.year-stat-body { padding: 16px; }
+.qtype-section { margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px dashed var(--border); }
+.qtype-section:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+
+.qtype-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.qtype-name { font-size: 14px; font-weight: 700; }
+.qtype-badge { font-family: var(--font-mono); font-size: 12px; padding: 2px 8px; border-radius: 12px; font-weight: 600; }
+.badge-high { background: var(--success-bg); color: var(--success); }
+.badge-mid { background: var(--warning-bg); color: var(--warning); }
+.badge-low { background: var(--accent-bg); color: var(--accent); }
+
+.article-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; font-size: 12px; }
+.article-info { display: flex; gap: 12px; color: var(--text-secondary); }
+.article-name { font-weight: 600; color: var(--text); width: 45px; }
+
+.brush-switcher { display: flex; gap: 4px; }
+.brush-btn {
+  padding: 2px 8px; border-radius: 4px; border: 1px solid var(--border);
+  font-size: 11px; cursor: pointer; background: transparent; color: var(--text-muted);
+  transition: all 0.2s; font-family: var(--font-mono);
+}
+.brush-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
+
+/* ═══════════════════════════════
+   MODAL
+═══════════════════════════════ */
+.modal-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 200;
+  display: flex; align-items: center; justify-content: center;
+  backdrop-filter: blur(4px); opacity: 0; pointer-events: none; transition: opacity 0.2s;
+}
+.modal-overlay.open { opacity: 1; pointer-events: all; }
+.modal {
+  background: var(--bg-warm); width: 100%; max-width: 500px;
+  border-radius: var(--radius); padding: 24px;
+  box-shadow: 0 24px 48px rgba(0,0,0,0.2);
+  transform: translateY(20px); transition: transform 0.2s;
+  border: 1px solid var(--card-solid);
+}
+.modal-overlay.open .modal { transform: translateY(0); }
+
+.modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.modal-title { font-family: var(--font-serif); font-size: 18px; font-weight: 700; color: var(--accent); }
+.modal-close { background: transparent; border: none; font-size: 20px; color: var(--text-muted); cursor: pointer; }
+
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+.form-row.single { grid-template-columns: 1fr; }
+.form-row.triple { grid-template-columns: 1fr 1fr 1fr; }
+.form-group { display: flex; flex-direction: column; gap: 6px; }
+.form-group label { font-size: 12px; font-weight: 600; color: var(--text-secondary); }
+.form-group input, .form-group select, .form-group textarea {
+  padding: 10px 12px; border: 1px solid var(--border-strong); border-radius: 6px;
+  font-size: 14px; background: var(--card-solid); color: var(--text);
+  outline: none; transition: border-color 0.2s; font-family: inherit;
+}
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--accent); }
+.form-group textarea { resize: vertical; min-height: 80px; }
+
+.modal-footer { display: flex; gap: 12px; margin-top: 24px; }
+.btn-cancel { flex: 1; padding: 12px; border: 1px solid var(--border-strong); border-radius: 8px; background: transparent; cursor: pointer; font-weight: 600; }
+.btn-save { flex: 2; padding: 12px; border: none; border-radius: 8px; background: var(--text); color: white; cursor: pointer; font-weight: 600; }
+
+.hidden { display: none !important; }
+.empty-state { text-align: center; padding: 60px 20px; color: var(--text-muted); font-size: 14px; }
+
+/* ═══════════════════════════════
+   CHART PANEL
+═══════════════════════════════ */
+.chart-panel { margin-bottom: 20px; }
+.chart-panel-header {
+  display: flex; justify-content: space-between; align-items: center;
+  cursor: pointer; user-select: none; padding: 13px 16px;
+  border-radius: var(--radius); background: var(--card);
+  backdrop-filter: blur(16px); border: 1px solid var(--border);
+  box-shadow: var(--shadow); transition: border-color 0.2s;
+}
+.chart-panel-header:hover { border-color: rgba(178,34,34,0.25); }
+.chart-panel-title { font-family: var(--font-serif); font-size: 14px; font-weight: 700; }
+.chart-toggle-icon { font-size: 11px; color: var(--text-muted); font-family: var(--font-mono); transition: transform 0.2s; display: inline-block; }
+.chart-panel.open .chart-toggle-icon { transform: rotate(180deg); }
+.chart-body {
+  display: none; margin-top: 8px;
+  background: var(--card); backdrop-filter: blur(16px);
+  border: 1px solid var(--border); border-radius: var(--radius);
+  box-shadow: var(--shadow); padding: 16px;
+}
+.chart-panel.open .chart-body { display: block; }
+.chart-legend { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+.chart-legend-item {
+  display: flex; align-items: center; gap: 5px; font-size: 12px;
+  color: var(--text-secondary); cursor: pointer; padding: 3px 8px;
+  border-radius: 20px; border: 1px solid var(--border);
+  transition: all 0.15s; user-select: none;
+}
+.chart-legend-item:hover { border-color: currentColor; }
+.chart-legend-item.disabled { opacity: 0.35; }
+.chart-legend-dot { width: 10px; height: 3px; border-radius: 2px; flex-shrink: 0; }
+.chart-svg-wrap { width: 100%; overflow-x: auto; }
+.chart-svg-wrap svg { display: block; min-width: 300px; }
+.chart-empty { text-align: center; padding: 32px; color: var(--text-muted); font-size: 13px; }
+/* ═══════════════════════════════
+   HEATMAP
+═══════════════════════════════ */
+.heatmap-wrap { padding: 0 16px 14px; }
+.heatmap-months {
+  display: flex; font-family: var(--font-mono);
+  font-size: 10px; color: var(--text-muted);
+  margin-bottom: 4px; padding-left: 18px;
+}
+.heatmap-grid { display: flex; gap: 3px; }
+.heatmap-days {
+  display: flex; flex-direction: column; gap: 3px;
+  font-family: var(--font-mono); font-size: 9px;
+  color: var(--text-muted); padding-top: 1px; flex-shrink: 0;
+}
+.heatmap-days span { height: 10px; line-height: 10px; width: 14px; text-align: right; padding-right: 2px; }
+.heatmap-cols { display: flex; gap: 3px; flex: 1; overflow: hidden; }
+.heatmap-col { display: flex; flex-direction: column; gap: 3px; }
+.heatmap-cell {
+  width: 10px; height: 10px; border-radius: 2px;
+  background: rgba(0,0,0,0.06); flex-shrink: 0; cursor: default;
+  transition: transform 0.1s;
+}
+.heatmap-cell:hover { transform: scale(1.4); }
+.heatmap-cell.lv1 { background: #fce1c6; } /* 浅奶油橘 */
+.heatmap-cell.lv2 { background: #f0a071; } /* 暖橘红 */
+.heatmap-cell.lv3 { background: #d64d3f; } /* 亮赤红 */
+.heatmap-cell.lv4 { background: #b22222; } /* 压阵的深砖红 */
+
+/* Sidebar buttons */
+.sidebar-btn-row { display: flex; gap: 8px; }
+.btn-secondary {
+  flex: 1; padding: 9px 10px; border-radius: var(--radius-sm);
+  border: 1px solid var(--border-strong); background: transparent;
+  cursor: pointer; font-size: 12px; font-weight: 600;
+  color: var(--text-secondary); font-family: inherit;
+  display: flex; align-items: center; justify-content: center; gap: 5px;
+  transition: all 0.2s;
+}
+.btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ═══════════════════════════════
+   MOBILE RESPONSIVE TWEAKS (极致适配)
+═══════════════════════════════ */
+@media (max-width: 480px) {
+  .form-row.triple { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 768px) {
+  /* 头部横幅重构：使用 Grid 三列绝对居中，完美稳住重心 */
+  .header { flex-direction: column; align-items: stretch; gap: 16px; padding: 12px 16px 16px; }
+  .header-left { 
+    display: grid; 
+    grid-template-columns: 1fr auto 1fr; 
+    align-items: center; 
+    width: 100%; 
+    gap: 0;
+  }
+  .back-link { justify-self: start; margin-right: 0; padding: 5px 12px; font-size: 12px; }
+  .site-title { justify-self: center; font-size: 16px; white-space: nowrap; }
+  .site-title-en { display: none; }
+  
+  /* 同步徽章靠右对齐，缩小字号防止挤压，保持三列平衡 */
+  .sync-badge { justify-self: end; font-size: 10px; padding: 3px 8px; }
+  
+  .header-nav { 
+    display: flex; width: 100%; gap: 4px; 
+    background: rgba(0,0,0,0.04); padding: 4px; border-radius: 20px; 
+  }
+  .nav-tab { 
+    flex: 1; text-align: center; border-radius: 16px; padding: 8px 0; 
+    font-size: 13px; font-weight: 600; background: transparent; 
+    color: var(--text-secondary); border: none; box-shadow: none; 
+    display: flex; align-items: center; justify-content: center;
+  }
+  .nav-tab.active { 
+    background: var(--accent); color: white; 
+    box-shadow: 0 4px 12px rgba(178,34,34,0.2); border: none; 
+  }
+
+  /* 筛选器折叠逻辑重构 */
+  #filter-panel .filter-group { border-top: none !important; padding-top: 0 !important; display: none; }
+  #filter-panel:not(.mobile-open) .panel-title { border-bottom: none; margin-bottom: 0; padding-bottom: 16px; }
+  #filter-panel.mobile-open .panel-title { border-bottom: 1px dashed var(--border); margin-bottom: 12px; padding-bottom: 12px; }
+  .filter-toggle { cursor: pointer; padding: 16px; margin: 0; }
+  #filter-panel.mobile-open .filter-group { display: flex; }
+  #filter-panel.mobile-open .filter-arrow { transform: rotate(180deg); }
+  
+  /* 记录卡片重构 */
+  .record-top { flex-direction: column; gap: 12px; }
+  .record-score-box { text-align: left; display: flex; gap: 12px; align-items: baseline; }
+  
+  /* 强制同一行，通过隐藏移动端的年份来节省空间 */
+  .record-meta { gap: 8px; font-size: 11px; }
+  .hide-mobile-year { display: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-left">
+    <a href="../index.html" class="back-link">&larr; RETURN</a>
+    <div class="site-title"><span class="site-title-en">ENGLISH_READING // </span>考研英语记录</div>
+    <span class="sync-badge local" id="sync-badge">
+      <span class="sync-dot"></span><span id="sync-text">本地模式</span>
+    </span>
+  </div>
+  <div class="header-nav">
+    <button type="button" class="nav-tab active" id="tab-records" onclick="switchTab('records')">做题记录</button>
+    <button type="button" class="nav-tab" id="tab-stats" onclick="switchTab('stats')">数据统计</button>
+  </div>
+</header>
+
+<div class="page-body">
+  <div class="sidebar-col">
+    <button type="button" class="btn-primary" onclick="openModal()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+      添加做题记录
+    </button>
+
+    <div class="glass">
+      <div class="panel-title">总览</div>
+      <div class="sidebar-stats" id="sidebar-stats"></div>
+      <div class="heatmap-wrap" id="heatmap-wrap"></div>
+    </div>
+
+    <div class="glass" id="filter-panel">
+      <div class="panel-title filter-toggle" onclick="toggleMobileFilters()">
+        <span>筛选</span>
+        <span class="filter-arrow">▼</span>
+      </div>
+      <div class="filter-group" id="filter-group">
+        <div class="filter-item">
+          <label>题型</label>
+          <select id="filter-qtype" onchange="onFilterChange()">
+            <option value="全部">全部题型</option>
+            <option value="阅读">阅读</option>
+            <option value="完形填空">完形填空</option>
+            <option value="新题型">新题型</option>
+            <option value="翻译">翻译</option>
+            <option value="小作文">小作文</option>
+            <option value="大作文">大作文</option>
+          </select>
+        </div>
+        <div class="filter-item">
+          <label>年份</label>
+          <select id="filter-year" onchange="renderRecords()">
+            <option value="全部">全部年份</option>
+          </select>
+        </div>
+        <div class="filter-item" id="filter-article-wrap">
+          <label>文章</label>
+          <select id="filter-article" onchange="renderRecords()">
+            <option value="全部">全部文章</option>
+            <option>Text 1</option><option>Text 2</option>
+            <option>Text 3</option><option>Text 4</option>
+          </select>
+        </div>
+        <div class="filter-item">
+          <label>刷次</label>
+          <select id="filter-brush" onchange="renderRecords()">
+            <option value="全部">全部刷次</option>
+            <option value="1">第 1 刷</option>
+            <option value="2">第 2 刷</option>
+            <option value="3">第 3 刷</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar-btn-row">
+      <button type="button" class="btn-secondary" onclick="exportData()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        导出备份
+      </button>
+      <button type="button" class="btn-secondary" onclick="triggerImport()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 14 12 9 17 14"/><line x1="12" y1="9" x2="12" y2="21"/></svg>
+        导入备份
+      </button>
+    </div>
+    <input type="file" id="import-file-input" accept=".json" style="display:none" onchange="importData(event)">
+  </div>
+
+  <div class="main-col">
+    
+    <div id="page-records">
+      <div class="section-header">
+        <div class="section-title">做题记录</div>
+        <div class="section-count" id="records-count"></div>
+      </div>
+      <div id="records-list"></div>
+    </div>
+
+    <div id="page-stats" class="hidden">
+      <div class="section-header">
+        <div class="section-title">年度统计</div>
+      </div>
+      <div class="chart-panel" id="score-chart-panel">
+        <div class="chart-panel-header" onclick="toggleScoreChart()">
+          <span class="chart-panel-title">年度得分率曲线</span>
+          <span class="chart-toggle-icon">▼</span>
+        </div>
+        <div class="chart-body" id="score-chart-body"></div>
+      </div>
+      <div class="stats-grid" id="year-stat-grid"></div>
+    </div>
+
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-overlay" onclick="handleModalClick(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="modal-title">添加做题记录</div>
+      <button type="button" class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>年份</label>
+        <select id="f-year"></select>
+      </div>
+      <div class="form-group">
+        <label>题型</label>
+        <select id="f-qtype" onchange="onQTypeChange()">
+          <option>阅读</option><option>完形填空</option><option>新题型</option>
+          <option>翻译</option><option>小作文</option><option>大作文</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-row single" id="f-article-row">
+      <div class="form-group">
+        <label>阅读文章</label>
+        <select id="f-article">
+          <option>Text 1</option><option>Text 2</option>
+          <option>Text 3</option><option>Text 4</option>
+        </select>
+      </div>
+    </div>
+
+    <div id="f-obj-fields">
+      <div class="form-row triple">
+        <div class="form-group">
+          <label>总题数</label>
+          <input type="number" id="f-total" min="1" max="20" value="5">
+        </div>
+        <div class="form-group">
+          <label>正确数</label>
+          <input type="number" id="f-correct" min="0" max="20" value="0">
+        </div>
+        <div class="form-group">
+          <label>耗时(分)</label>
+          <input type="number" id="f-time" min="1" max="300" value="15">
+        </div>
+      </div>
+    </div>
+
+    <div id="f-subj-fields" class="hidden">
+      <div class="form-row">
+        <div class="form-group">
+          <label>得分</label>
+          <input type="number" id="f-score" min="0" max="25" value="0">
+        </div>
+        <div class="form-group">
+          <label>耗时(分)</label>
+          <input type="number" id="f-time-s" min="1" max="300" value="20">
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row triple">
+      <div class="form-group">
+        <label>做题日期</label>
+        <input type="date" id="f-date">
+      </div>
+      <div class="form-group">
+        <label>当前刷次</label>
+        <select id="f-brush">
+          <option value="1">第 1 刷</option>
+          <option value="2">第 2 刷</option>
+          <option value="3">第 3 刷</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>难度评级</label>
+        <select id="f-difficulty">
+          <option>简单</option><option selected>中等</option><option>困难</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-row single">
+      <div class="form-group">
+        <label>备注</label>
+        <textarea id="f-notes" placeholder="记录做题心得、错误原因等..."></textarea>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn-cancel" onclick="closeModal()">取消</button>
+      <button type="button" class="btn-save" onclick="saveRecord()">保存记录</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── Constants & State ────────────────────────────────
+const QTYPES = ['阅读','完形填空','新题型','翻译','小作文','大作文'];
+const OBJ_TYPES = new Set(['阅读','完形填空','新题型']);
+const ARTICLES = ['Text 1','Text 2','Text 3','Text 4'];
+const YEARS = Array.from({length:22},(_,i)=>2026-i);
+const SCORE_PER_Q = {'阅读':2,'完形填空':0.5,'新题型':2};
+const MAX_Q = {'阅读':5,'完形填空':20,'新题型':5};
+const SUBJ_MAX = {'翻译':10,'小作文':10,'大作文':20};
+
+let records = [];
+let currentTab = 'records';
+let statsBrushSel = {};
+let editingRecordId = null;
+
+// ── Helpers ──────────────────────────────────────────
+const isObj = qt => OBJ_TYPES.has(qt);
+const genId = () => Date.now().toString(36) + Math.random().toString(36).slice(2,5);
+const today = () => {
+  const d = new Date();
+  d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
+  return d.toISOString().slice(0,10);
+};
+const fmt = n => n % 1 === 0 ? String(n) : n.toFixed(1);
+
+function calcScore(r) {
+  return isObj(r.questionType) ? (r.correctQuestions||0) * SCORE_PER_Q[r.questionType] : (r.score||0);
+}
+function calcAcc(r) {
+  if (!isObj(r.questionType)) return null;
+  return Math.round((r.correctQuestions / (r.totalQuestions||1)) * 100);
+}
+function accClass(p) {
+  if (p>=80) return 'badge-high';
+  if (p>=60) return 'badge-mid';
+  return 'badge-low';
+}
+
+// ── Storage & Backend ────────────────────────────────
+const LS_KEY = 'kaoyan_reading_v2';
+function lsSave() { try { localStorage.setItem(LS_KEY, JSON.stringify(records)); } catch(e){} }
+function lsLoad() { try { return JSON.parse(localStorage.getItem(LS_KEY)||'[]'); } catch(e){ return []; } }
+
+async function serverLoad() {
+  try {
+    const r = await fetch('load', { cache: 'no-store' }); 
+    const d = await r.json();
+    return d.records ?? null;
+  } catch(e) { return null; }
+}
+
+
+// ── Sync Status ──────────────────────────────────────
+function setSyncStatus(mode) {
+  const badge = document.getElementById('sync-badge');
+  const text  = document.getElementById('sync-text');
+  if (!badge) return;
+  if (mode === 'cloud') {
+    badge.className = 'sync-badge cloud';
+    text.textContent = '云端同步';
+  } else if (mode === 'saving') {
+    badge.className = 'sync-badge cloud';
+    text.textContent = '保存中…';
+  } else {
+    badge.className = 'sync-badge local';
+    text.textContent = '本地模式';
+  }
+}
+
+async function initData() {
+  const local = lsLoad();
+  const remote = await serverLoad();
+  records = remote !== null ? remote : local;
+  if (remote !== null) { lsSave(); setSyncStatus('cloud'); }
+  else { setSyncStatus('local'); }
+  populateYearFilter();
+  renderAll();
+}
+
+async function serverSave() {
+  try {
+    setSyncStatus('saving');
+    await fetch('save', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({records})
+    });
+    setSyncStatus('cloud');
+  } catch(e) { setSyncStatus('local'); }
+}
+
+// ── Interaction Logic ───────────────────────────────────
+function switchTab(tab) {
+  currentTab = tab;
+  document.getElementById('page-records').classList.toggle('hidden', tab!=='records');
+  document.getElementById('page-stats').classList.toggle('hidden', tab!=='stats');
+  document.getElementById('filter-panel').classList.toggle('hidden', tab!=='records');
+  
+  document.getElementById('tab-records').classList.toggle('active', tab==='records');
+  document.getElementById('tab-stats').classList.toggle('active', tab==='stats');
+  
+  if (tab==='stats') { renderSidebarStats(); renderYearCards(); }
+}
+
+function toggleMobileFilters() {
+  if (window.innerWidth <= 768) {
+    document.getElementById('filter-panel').classList.toggle('mobile-open');
+  }
+}
+
+// ── Filters ──────────────────────────────────────────
+function onFilterChange() {
+  const qt = document.getElementById('filter-qtype').value;
+  document.getElementById('filter-article-wrap').classList.toggle('hidden', qt!=='全部' && qt!=='阅读');
+  renderRecords();
+}
+
+function filteredRecords() {
+  const qt = document.getElementById('filter-qtype').value;
+  const yr = document.getElementById('filter-year').value;
+  const art = document.getElementById('filter-article').value;
+  const br = document.getElementById('filter-brush').value;
+  
+  return records.filter(r => {
+    if (qt!=='全部' && r.questionType!==qt) return false;
+    if (yr!=='全部' && String(r.year)!==yr) return false;
+    if (art!=='全部' && r.article!==art) return false;
+    if (br!=='全部' && String(r.brush)!==br) return false;
+    return true;
+  });
+}
+
+function populateYearFilter() {
+  const years = [...new Set(records.map(r=>r.year))].sort((a,b)=>b-a);
+  const sel = document.getElementById('filter-year');
+  const cur = sel.value;
+  sel.innerHTML = '<option value="全部">全部年份</option>' +
+    years.map(y=>`<option value="${y}"${String(y)===cur?'selected':''}>${y}年</option>`).join('');
+}
+
+// ── Render Records ───────────────────────────────────
+function renderRecords() {
+  const list = filteredRecords().sort((a,b)=> {
+    if (b.year !== a.year) return b.year - a.year;
+    const dateDiff = new Date(b.date) - new Date(a.date);
+    if (dateDiff !== 0) return dateDiff;
+    return (b.id || '').localeCompare(a.id || ''); 
+  });
+  
+  document.getElementById('records-count').textContent = `共 ${list.length} 条记录`;
+
+  const container = document.getElementById('records-list');
+  if (!list.length) {
+    container.innerHTML = `<div class="empty-state">暂无记录，点击左侧按钮开始录入。</div>`;
+    return;
+  }
+
+  const groups = {};
+  list.forEach(r => { (groups[r.year]=groups[r.year]||[]).push(r); });
+  const years = Object.keys(groups).sort((a,b)=>b-a);
+
+  container.innerHTML = years.map(year => {
+    const recs = groups[year];
+    
+    const latestMap = {};
+    recs.forEach(r => {
+        const key = r.questionType + '-' + (r.article || '');
+        if (!latestMap[key] || r.brush > latestMap[key].brush) {
+            latestMap[key] = r;
+        }
+    });
+    const effectiveScore = Object.values(latestMap).reduce((s,r) => s + calcScore(r), 0);
+    const cumulativeTime = recs.reduce((s,r)=>s+(r.timeMinutes||0),0);
+    
+    return `<div class="year-group">
+      <div class="year-header">
+        <span>${year}</span>
+        <div class="year-meta">有效卷面分 ${fmt(effectiveScore)} &nbsp;|&nbsp; 累计练习 ${cumulativeTime} min</div>
+      </div>
+      ${recs.map(r=>recordHTML(r)).join('')}
+    </div>`;
+  }).join('');
+}
+
+function recordHTML(r) {
+  const sc = calcScore(r);
+  const acc = calcAcc(r);
+  
+  const scoreHtml = acc!==null
+    ? `<div class="score-main"><span class="score-num">${fmt(sc)}</span><span class="score-unit">分</span></div><div class="score-sub">正确率 ${acc}%</div>`
+    : `<div class="score-main"><span class="score-num">${fmt(sc)}</span><span class="score-unit">分</span></div>`;
+  
+  // 处理日期：电脑端显示全拼，移动端截取年份
+  const fullDate = (r.date||'').replace(/-/g, '/');
+  const yearPart = fullDate.substring(0, 5); // "2026/"
+  const mdPart = fullDate.substring(5); // "05/29"
+
+  return `<div class="glass record-card">
+    <div class="record-top">
+      <div class="record-tags">
+        <span class="tag tag-q">${r.questionType}</span>
+        ${r.article?`<span class="tag tag-article">${r.article}</span>`:''}
+        <span class="tag tag-article">${r.difficulty}</span>
+        <span class="tag tag-brush">第 ${r.brush} 刷</span>
+      </div>
+      <div class="record-score-box">${scoreHtml}</div>
+    </div>
+    ${r.notes?`<div class="record-notes">${r.notes}</div>`:''}
+    <div class="record-bottom">
+      <div class="record-meta">
+        <span>⏱️ ${r.timeMinutes} min</span>
+        <span>📅 <span class="hide-mobile-year">${yearPart}</span>${mdPart}</span>
+      </div>
+      <div class="record-actions">
+        <button type="button" class="btn-edit" onclick="editRecord('${r.id}')">编辑</button>
+        <button type="button" class="btn-delete" onclick="deleteRecord('${r.id}')">删除</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+function deleteRecord(id) {
+  if (!confirm('确定删除这条记录吗？')) return;
+  records = records.filter(r=>r.id!==id);
+  lsSave(); serverSave(); populateYearFilter(); renderAll();
+}
+
+function editRecord(id) {
+  const r = records.find(x => x.id === id);
+  if (!r) return;
+  editingRecordId = id;
+  
+  document.getElementById('modal-title').textContent = '编辑做题记录';
+  
+  const sel = document.getElementById('f-year');
+  sel.innerHTML = YEARS.map(y=>`<option value="${y}"${y===r.year?'selected':''}>${y}年</option>`).join('');
+  
+  document.getElementById('f-qtype').value = r.questionType;
+  onQTypeChange();
+  
+  if (r.questionType === '阅读') {
+    document.getElementById('f-article').value = r.article || 'Text 1';
+  }
+  
+  if (isObj(r.questionType)) {
+    document.getElementById('f-total').value = r.totalQuestions || 5;
+    document.getElementById('f-correct').value = r.correctQuestions || 0;
+    document.getElementById('f-time').value = r.timeMinutes || 15;
+  } else {
+    document.getElementById('f-score').value = r.score || 0;
+    document.getElementById('f-time-s').value = r.timeMinutes || 20;
+  }
+  
+  document.getElementById('f-date').value = r.date || today();
+  document.getElementById('f-difficulty').value = r.difficulty || '中等';
+  document.getElementById('f-brush').value = r.brush || 1;
+  document.getElementById('f-notes').value = r.notes || '';
+  
+  document.getElementById('modal-overlay').classList.add('open');
+}
+
+// ── Render Stats ─────────────────────────────────────
+function renderStats() {
+  renderSidebarStats();
+  renderYearCards();
+}
+
+function renderSidebarStats() {
+  const totalTime = records.reduce((s,r)=>s+(r.timeMinutes||0),0);
+
+  // 年度均分：每年取最新刷有效得分，求各年总分的平均
+  const byYear = {};
+  records.forEach(r => {
+    const key = r.questionType + '-' + (r.article||'');
+    if (!byYear[r.year]) byYear[r.year] = {};
+    if (!byYear[r.year][key] || r.brush > byYear[r.year][key].brush)
+      byYear[r.year][key] = r;
+  });
+  const yearTotals = Object.values(byYear).map(m =>
+    Object.values(m).reduce((s,r) => s + calcScore(r), 0)
+  );
+  const avgYearScore = yearTotals.length
+    ? Math.round(yearTotals.reduce((a,b)=>a+b,0) / yearTotals.length)
+    : 0;
+
+  document.getElementById('sidebar-stats').innerHTML = `
+    <div class="stat-mini-box">
+      <div class="stat-mini-val">${records.length}</div>
+      <div class="stat-mini-label">总记录数</div>
+    </div>
+    <div class="stat-mini-box">
+      <div class="stat-mini-val" style="color:var(--accent)">${avgYearScore}</div>
+      <div class="stat-mini-label">年度均分</div>
+    </div>
+    <div class="stat-mini-box" style="grid-column: 1 / -1;">
+      <div class="stat-mini-val" style="color:var(--text)">${totalTime} <span style="font-size:12px;font-weight:400">min</span></div>
+      <div class="stat-mini-label">总用时</div>
+    </div>`;
+
+  renderHeatmap();
+}
+
+function renderHeatmap() {
+  const wrap = document.getElementById('heatmap-wrap');
+  if (!wrap) return;
+
+  // date → count map
+  const countMap = {};
+  records.forEach(r => { if (r.date) countMap[r.date] = (countMap[r.date]||0) + 1; });
+
+  // 近 20 周，从上个周日开始
+  const todayD = new Date(); todayD.setHours(0,0,0,0);
+  const WEEKS = 20;
+  const start = new Date(todayD);
+  start.setDate(start.getDate() - todayD.getDay() - (WEEKS - 1) * 7);
+
+  const weeks = [];
+  const cur = new Date(start);
+  while (cur <= todayD) {
+    const week = [];
+    for (let d = 0; d < 7; d++) { week.push(new Date(cur)); cur.setDate(cur.getDate()+1); }
+    weeks.push(week);
+  }
+
+  const toKey = d => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+  const lvCls = n => n>=4?'lv4':n>=3?'lv3':n>=2?'lv2':n>=1?'lv1':'';
+  const MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+  // Month label spans
+  const monthSpans = [];
+  weeks.forEach((wk, wi) => {
+    const m = MON[wk[0].getMonth()];
+    if (!monthSpans.length || monthSpans[monthSpans.length-1].label !== m)
+      monthSpans.push({ label: m, count: 1 });
+    else monthSpans[monthSpans.length-1].count++;
+  });
+
+  const monthHtml = monthSpans.map(m =>
+    `<span style="flex:${m.count};min-width:0;overflow:hidden">${m.label}</span>`
+  ).join('');
+
+  const colsHtml = weeks.map(wk =>
+    `<div class="heatmap-col">${wk.map(day => {
+      if (day > todayD) return `<div class="heatmap-cell" style="background:transparent"></div>`;
+      const key = toKey(day);
+      const cnt = countMap[key]||0;
+      const tip = cnt ? `${key}: ${cnt}条记录` : key;
+      return `<div class="heatmap-cell ${lvCls(cnt)}" title="${tip}"></div>`;
+    }).join('')}</div>`
+  ).join('');
+
+  wrap.innerHTML = `
+    <div class="heatmap-months" style="display:flex">${monthHtml}</div>
+    <div class="heatmap-grid">
+      <div class="heatmap-days">
+        <span></span><span>M</span><span></span><span>W</span><span></span><span>F</span><span></span>
+      </div>
+      <div class="heatmap-cols">${colsHtml}</div>
+    </div>`;
+}
+
+function renderYearCards() {
+  const byYear = {};
+  records.forEach(r => { (byYear[r.year]=byYear[r.year]||[]).push(r); });
+  const years = Object.keys(byYear).sort((a,b)=>b-a);
+  const grid = document.getElementById('year-stat-grid');
+  
+  if (!years.length) {
+    grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1">缺少数据以进行分析</div>';
+    return;
+  }
+  grid.innerHTML = years.map(y=>buildYearCard(Number(y), byYear[y])).join('');
+}
+
+function buildYearCard(year, recs) {
+  const byQt = {};
+  recs.forEach(r => { (byQt[r.questionType]=byQt[r.questionType]||[]).push(r); });
+
+  let totObj = 0, totSubj = 0;
+
+  const sections = QTYPES.filter(qt=>byQt[qt]).map(qt => {
+    const qtRecs = byQt[qt];
+    
+    if (isObj(qt)) {
+      const perUnit = {}; 
+      qtRecs.forEach(r => {
+        const k = qt==='阅读' ? (r.article||'') : '';
+        (perUnit[k]=perUnit[k]||[]).push(r);
+      });
+
+      const unitKeys = qt==='阅读' ? ARTICLES.filter(a=>perUnit[a]) : [''];
+      let totalCorrect=0, totalQ=0, totalSc=0;
+      
+      const rows = unitKeys.map(uk => {
+        const uRecs = (perUnit[uk]||[]).sort((a,b)=>a.brush-b.brush);
+        const brushes = [...new Set(uRecs.map(r=>r.brush))].sort();
+        const selKey = `${year}-${qt}-${uk}`;
+        
+        if (statsBrushSel[selKey] === undefined) {
+            statsBrushSel[selKey] = Math.max(...brushes);
+        }
+        
+        const selB = statsBrushSel[selKey];
+        const selR = uRecs.find(r=>r.brush===selB) || uRecs[uRecs.length-1];
+        
+        totalCorrect += selR.correctQuestions||0;
+        totalQ += selR.totalQuestions||0;
+        totalSc += calcScore(selR);
+
+        const brushBtns = brushes.map(b=>
+          `<button type="button" class="brush-btn${b===selB?' active':''}" onclick="selectBrush(${year},'${qt}','${uk}',${b})">第${b}刷</button>`
+        ).join('');
+        
+        const artAcc = selR.totalQuestions ? Math.round((selR.correctQuestions/selR.totalQuestions)*100) : 0;
+
+        if (qt==='阅读') {
+          return `<div class="article-row">
+            <div class="article-info">
+              <span class="article-name">${uk}</span>
+              <span>${selR.correctQuestions}/${selR.totalQuestions}题</span>
+              <span style="font-family:var(--font-mono);font-weight:600">${artAcc}%</span>
+            </div>
+            <div class="brush-switcher">${brushBtns}</div>
+          </div>`;
+        } else {
+          return `<div class="article-row" style="justify-content:flex-end"><div class="brush-switcher">${brushBtns}</div></div>`;
+        }
+      }).join('');
+
+      totObj += totalSc;
+      const acc = totalQ ? Math.round(totalCorrect/totalQ*100) : 0;
+      return `<div class="qtype-section">
+        <div class="qtype-header">
+          <span class="qtype-name">${qt}</span>
+          <span class="qtype-badge ${accClass(acc)}">${acc}% ACC</span>
+        </div>
+        ${rows}
+      </div>`;
+
+    } else {
+      const brushes = [...new Set(qtRecs.map(r=>r.brush))].sort();
+      const selKey = `${year}-${qt}-`;
+      
+      if (statsBrushSel[selKey] === undefined) {
+          statsBrushSel[selKey] = Math.max(...brushes);
+      }
+      
+      const selB = statsBrushSel[selKey];
+      const selR = qtRecs.find(r=>r.brush===selB) || qtRecs[qtRecs.length-1];
+      const sc = calcScore(selR);
+      totSubj += sc;
+      const maxSc = SUBJ_MAX[qt]||'?';
+      
+      const brushBtns = brushes.length>1 ? brushes.map(b=>
+        `<button type="button" class="brush-btn${b===selB?' active':''}" onclick="selectBrush(${year},'${qt}','',${b})">第${b}刷</button>`
+      ).join('') : '';
+      
+      return `<div class="qtype-section">
+        <div class="qtype-header">
+          <span class="qtype-name">${qt}</span>
+          <span class="qtype-badge" style="background:rgba(0,0,0,0.05);color:var(--text)">${sc}/${maxSc} 分</span>
+        </div>
+        ${brushBtns?`<div class="article-row" style="justify-content:flex-end"><div class="brush-switcher">${brushBtns}</div></div>`:''}
+      </div>`;
+    }
+  }).join('');
+
+  return `<div class="glass year-stat-card">
+    <div class="year-stat-header">
+      <div class="year-stat-title">${year} 年</div>
+      <div class="year-stat-total">总得分 ${fmt(totObj + totSubj)}</div>
+    </div>
+    <div class="year-stat-body">
+      ${sections}
+    </div>
+    <div style="display:flex;border-top:1px solid var(--border);">
+      <div style="flex:1;padding:10px;text-align:center;border-right:1px solid var(--border);">
+        <div style="font-size:11px;color:var(--text-muted);margin-bottom:3px;">客观分</div>
+        <div style="font-size:15px;font-weight:700;font-family:var(--font-mono);color:var(--accent);">${fmt(totObj)}</div>
+      </div>
+      <div style="flex:1;padding:10px;text-align:center;">
+        <div style="font-size:11px;color:var(--text-muted);margin-bottom:3px;">主观分</div>
+        <div style="font-size:15px;font-weight:700;font-family:var(--font-mono);color:#5c4a8a;">${fmt(totSubj)}</div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function selectBrush(year, qt, article, brush) {
+  statsBrushSel[`${year}-${qt}-${article}`] = brush;
+  renderStats();
+}
+
+// ── Modal Form ───────────────────────────────────────
+function openModal() {
+  editingRecordId = null;
+  document.getElementById('modal-title').textContent = '添加做题记录';
+  const sel = document.getElementById('f-year');
+  sel.innerHTML = YEARS.map(y=>`<option value="${y}"${y===2026?'selected':''}>${y}年</option>`).join('');
+  resetModal();
+  document.getElementById('modal-overlay').classList.add('open');
+}
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('open');
+  resetModal();
+}
+function handleModalClick(e) {
+  if (e.target.id === 'modal-overlay') closeModal();
+}
+function resetModal() {
+  editingRecordId = null;
+  document.getElementById('f-qtype').value='阅读';
+  document.getElementById('f-article').value='Text 1';
+  document.getElementById('f-total').value='5';
+  document.getElementById('f-correct').value='0';
+  document.getElementById('f-time').value='15';
+  document.getElementById('f-score').value='0';
+  document.getElementById('f-time-s').value='20';
+  document.getElementById('f-date').value=today();
+  document.getElementById('f-difficulty').value='中等';
+  document.getElementById('f-brush').value='1';
+  document.getElementById('f-notes').value='';
+  onQTypeChange();
+}
+function onQTypeChange() {
+  const qt = document.getElementById('f-qtype').value;
+  const obj = isObj(qt);
+  document.getElementById('f-article-row').classList.toggle('hidden', qt!=='阅读');
+  document.getElementById('f-obj-fields').classList.toggle('hidden', !obj);
+  document.getElementById('f-subj-fields').classList.toggle('hidden', obj);
+  if (obj) {
+    const max = MAX_Q[qt]||5;
+    document.getElementById('f-total').value = max;
+    document.getElementById('f-total').max = max;
+    document.getElementById('f-correct').max = max;
+  } else {
+    document.getElementById('f-score').max = SUBJ_MAX[qt]||100;
+  }
+}
+function saveRecord() {
+  const qt = document.getElementById('f-qtype').value;
+  const year = Number(document.getElementById('f-year').value);
+  const obj = isObj(qt);
+  let correct=0, total=0, score=0, time=0;
+
+  if (obj) {
+    total = Number(document.getElementById('f-total').value)||0;
+    correct = Number(document.getElementById('f-correct').value)||0;
+    time = Number(document.getElementById('f-time').value)||0;
+    if (correct>total) { alert('正确数不能超过总题数'); return; }
+  } else {
+    score = Number(document.getElementById('f-score').value)||0;
+    time = Number(document.getElementById('f-time-s').value)||0;
+  }
+
+  const recordData = {
+    examType: '英语一',
+    year,
+    questionType: qt,
+    article: qt==='阅读' ? document.getElementById('f-article').value : null,
+    totalQuestions: obj ? total : null,
+    correctQuestions: obj ? correct : null,
+    score: obj ? null : score,
+    timeMinutes: time,
+    difficulty: document.getElementById('f-difficulty').value,
+    brush: Number(document.getElementById('f-brush').value),
+    notes: document.getElementById('f-notes').value.trim(),
+    date: document.getElementById('f-date').value || today(),
+  };
+
+  if (editingRecordId) {
+    const idx = records.findIndex(x => x.id === editingRecordId);
+    if (idx > -1) {
+      recordData.id = records[idx].id;
+      records[idx] = recordData;
+    }
+  } else {
+    recordData.id = genId();
+    records.push(recordData);
+  }
+
+  lsSave(); 
+  serverSave(); 
+  populateYearFilter(); 
+  closeModal(); 
+  renderAll();
+}
+
+// ── Score Rate Chart (年度得分率平滑曲线) ─────────────
+const CHART_SERIES = [
+  { key: '总分',    color: '#1a1a2e', max: 100 },
+  { key: '阅读',    color: '#b22222', max: 40  },
+  { key: '完形填空', color: '#2d6a4f', max: 10  },
+  { key: '新题型',  color: '#b8870b', max: 10  },
+  { key: '翻译',    color: '#5c4a8a', max: 10  },
+  { key: '小作文',  color: '#1a6fa8', max: 10  },
+  { key: '大作文',  color: '#a05c20', max: 20  },
+];
+let chartDisabled = new Set(); // 被隐藏的系列 key
+
+function toggleScoreChart() {
+  const panel = document.getElementById('score-chart-panel');
+  panel.classList.toggle('open');
+  if (panel.classList.contains('open')) renderScoreChart();
+}
+
+// Catmull-Rom → Cubic Bezier 平滑路径
+function catmullRomPath(pts) {
+  if (pts.length < 2) return '';
+  if (pts.length === 2) return `M${pts[0][0]},${pts[0][1]} L${pts[1][0]},${pts[1][1]}`;
+  let d = `M${pts[0][0]},${pts[0][1]}`;
+  for (let i = 0; i < pts.length - 1; i++) {
+    const p0 = pts[Math.max(i-1,0)];
+    const p1 = pts[i];
+    const p2 = pts[i+1];
+    const p3 = pts[Math.min(i+2, pts.length-1)];
+    const cp1x = p1[0] + (p2[0]-p0[0])/6;
+    const cp1y = p1[1] + (p2[1]-p0[1])/6;
+    const cp2x = p2[0] - (p3[0]-p1[0])/6;
+    const cp2y = p2[1] - (p3[1]-p1[1])/6;
+    d += ` C${cp1x.toFixed(1)},${cp1y.toFixed(1)} ${cp2x.toFixed(1)},${cp2y.toFixed(1)} ${p2[0]},${p2[1]}`;
+  }
+  return d;
+}
+
+function renderScoreChart() {
+  const body = document.getElementById('score-chart-body');
+
+  // 按年份取最新刷得分
+  const latestByYearQt = {};
+  records.forEach(r => {
+    const key = r.questionType + '-' + (r.article||'');
+    if (!latestByYearQt[r.year]) latestByYearQt[r.year] = {};
+    if (!latestByYearQt[r.year][key] || r.brush > latestByYearQt[r.year][key].brush)
+      latestByYearQt[r.year][key] = r;
+  });
+
+  const years = Object.keys(latestByYearQt).map(Number).sort((a,b)=>a-b);
+  if (years.length < 1) {
+    body.innerHTML = '<div class="chart-empty">暂无数据</div>';
+    return;
+  }
+
+  // 每年各题型得分
+  const yearScores = years.map(year => {
+    const recs = Object.values(latestByYearQt[year]);
+    const byQt = {};
+    recs.forEach(r => {
+      byQt[r.questionType] = (byQt[r.questionType]||0) + calcScore(r);
+    });
+    const total = Object.values(byQt).reduce((s,v)=>s+v,0);
+    return { year, byQt, total };
+  });
+
+  // SVG dimensions
+  const PL = 38, PR = 16, PT = 16, PB = 36;
+  const cH = 180;
+  const minW = Math.max(300, years.length * 60 + PL + PR);
+  const W = minW, H = PT + cH + PB;
+  const xStep = years.length > 1 ? (W - PL - PR) / (years.length - 1) : 0;
+  const tx = i => years.length > 1 ? PL + i * xStep : W / 2;
+  const ty = pct => PT + cH - (pct / 100) * cH;
+
+  let svg = '';
+  // Y gridlines + labels
+  [0, 25, 50, 75, 100].forEach(pct => {
+    const y = ty(pct);
+    svg += `<line x1="${PL}" y1="${y}" x2="${W-PR}" y2="${y}" stroke="rgba(0,0,0,0.06)" stroke-width="1"/>`;
+    svg += `<text x="${PL-4}" y="${y+4}" text-anchor="end" font-size="9" fill="#aaa" font-family="monospace">${pct}%</text>`;
+  });
+  // X labels (years)
+  years.forEach((yr, i) => {
+    svg += `<text x="${tx(i)}" y="${H-6}" text-anchor="middle" font-size="10" fill="#888" font-family="monospace">${yr}</text>`;
+  });
+
+  // Series
+  CHART_SERIES.forEach(s => {
+    if (chartDisabled.has(s.key)) return;
+    const pts = yearScores.map((d, i) => {
+      const score = s.key === '总分' ? d.total : (d.byQt[s.key] ?? null);
+      if (score === null) return null;
+      const pct = Math.min(100, (score / s.max) * 100);
+      return [tx(i), ty(pct), pct];
+    }).filter(Boolean);
+    if (!pts.length) return;
+
+    const pathD = catmullRomPath(pts.map(p=>[p[0],p[1]]));
+    svg += `<path d="${pathD}" fill="none" stroke="${s.color}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>`;
+    pts.forEach(([x,y,pct]) => {
+      svg += `<circle cx="${x}" cy="${y}" r="4" fill="${s.color}" stroke="white" stroke-width="1.5">
+        <title>${s.key}: ${pct.toFixed(1)}% (满分${s.max}分)</title>
+      </circle>`;
+    });
+  });
+
+  // Legend HTML (clickable)
+  const legendHtml = CHART_SERIES.map(s => {
+    const disabled = chartDisabled.has(s.key) ? ' disabled' : '';
+    return `<div class="chart-legend-item${disabled}" style="color:${s.color}" onclick="toggleChartSeries('${s.key}')">
+      <div class="chart-legend-dot" style="background:${s.color}"></div>${s.key}
+    </div>`;
+  }).join('');
+
+  body.innerHTML = `
+    <div class="chart-legend">${legendHtml}</div>
+    <div class="chart-svg-wrap">
+      <svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;height:auto">${svg}</svg>
+    </div>`;
+}
+
+function toggleChartSeries(key) {
+  if (chartDisabled.has(key)) chartDisabled.delete(key);
+  else chartDisabled.add(key);
+  renderScoreChart();
+}
+
+// ── Export ────────────────────────────────────────────
+function exportData() {
+  const blob = new Blob([JSON.stringify({records}, null, 2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `kaoyan_reading_backup_${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// ── Import ────────────────────────────────────────────
+function triggerImport() {
+  document.getElementById('import-file-input').value = '';
+  document.getElementById('import-file-input').click();
+}
+
+function importData(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const parsed = JSON.parse(e.target.result);
+      const incoming = Array.isArray(parsed) ? parsed : (parsed.records ?? null);
+      if (!incoming || !Array.isArray(incoming)) {
+        alert('文件格式不正确，请选择有效的备份 JSON 文件'); return;
+      }
+      if (!confirm(`即将导入 ${incoming.length} 条记录，将与现有 ${records.length} 条按 ID 去重合并，是否继续？`)) return;
+      const existingIds = new Set(records.map(r=>r.id));
+      const newRecs = incoming.filter(r => r.id && !existingIds.has(r.id));
+      records = [...records, ...newRecs].sort((a,b) =>
+        b.year !== a.year ? b.year - a.year : new Date(b.date) - new Date(a.date)
+      );
+      lsSave(); serverSave(); populateYearFilter(); renderAll();
+      alert(`导入完成：新增 ${newRecs.length} 条，跳过重复 ${incoming.length - newRecs.length} 条`);
+    } catch(err) { alert('文件解析失败，请确认是有效的 JSON 文件'); }
+  };
+  reader.readAsText(file);
+}
+
+// ── Init ─────────────────────────────────────────────
+function renderAll() { 
+  renderRecords();
+  renderSidebarStats(); // 热力图 + 总览始终刷新
+  if (currentTab==='stats') {
+    renderYearCards();
+    if (document.getElementById('score-chart-panel')?.classList.contains('open')) renderScoreChart();
+  }
+}
+
+// Ensure init kicks off
+initData();
+</script>
+</body>
+</html>
